@@ -1,0 +1,46 @@
+{
+    "config": {
+        "env": "TradingEnv",
+        "env_config": {
+            "total_steps": 200,
+            "num_assets": 54,
+            "num_experts": 85,
+            "commission": 0.001,
+            "time_cost": 0,
+            "window_size": 60,
+            "min_periods": 60,
+            "min_profit": -0.02,
+            "start_date": "6/22/2015",
+            "end_date": "2/28/2019",
+            "initial_cash": 1.0,
+            "validation_start_date": "3/1/2019",
+            "validation_start_close": "11/30/2019"
+        },
+        "kl_coeff": 1.0,
+        "num_workers": 1,
+        "batch_mode": "truncate_episodes",
+        "rollout_fragment_length": 200,
+        "num_gpus": 0,
+        "observation_filter": "MeanStdFilter",
+        "framework": "torch",
+        "model": {
+            "custom_model": "reallocate",
+            "custom_model_config": {
+                "num_assets": 54,
+                "num_experts": 85,
+                "num_features": 174,
+                "second_channels": 80,
+                "third_channels": 30,
+                "forth_channels": 10
+            },
+            "custom_action_dist": "dirichlet"
+        },
+        "num_sgd_iter": 1,
+        "sgd_minibatch_size": 100,
+        "lambda": 0.9590554347994169,
+        "clip_param": 0.36228320294870875,
+        "lr": 0.0006692369891822994,
+        "train_batch_size": 600
+    },
+    "checkpoints": []
+}

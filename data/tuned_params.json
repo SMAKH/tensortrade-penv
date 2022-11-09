@@ -1,0 +1,53 @@
+{
+    "config": {
+        "env": "TradingEnv",
+        "env_config": {
+            "total_steps": 200,
+            "num_assets": 54,
+            "num_experts": 85,
+            "commission": 0.001,
+            "time_cost": 0,
+            "window_size": 60,
+            "min_periods": 60,
+            "min_profit": -0.2,
+            "max_drawdown": -0.2,
+            "start_date": "6/22/2015",
+            "end_date": "3/20/2018",
+            "initial_cash": 1.0,
+            "validation_start_date": "3/20/2018",
+            "validation_close_date": "3/20/2019",
+            "validation":"False"
+        },
+        "kl_coeff": 1.0,
+        "num_workers": 1,
+        "num_gpus": 0,
+        "rollout_fragment_length": 100,
+        "observation_filter": "MeanStdFilter",
+        "batch_mode": "truncate_episodes",
+        "framework": "torch",
+        "model": {
+            "custom_model": "reallocate",
+            "custom_model_config": {
+                "num_assets": 54,
+                "num_experts": 85,
+                "num_features": 174,
+                "second_channels": 80,
+                "third_channels": 30,
+                "forth_channels": 10
+            },
+            "custom_action_dist": "dirichlet"
+        },
+        "num_sgd_iter": 5,
+        "sgd_minibatch_size": 128,
+        "lambda": 0.8821808498975311,
+        "clip_param": 0.406076612771886,
+        "lr": 0.0005154089107365966,
+        "train_batch_size": 1200
+    },
+    "checkpoints": [
+        [
+        "/app/results/portfolio_allocation/PPO_TradingEnv_fc76e_00000_0_2022-02-13_01-26-13/checkpoint_000810/checkpoint-810",
+        3.0
+        ]
+    ]
+}

@@ -1,0 +1,10 @@
+protobuf==3.19
+ray==2.0.1
+-e file:///home/mohammadmahdi/Thesis/tensortrade
+gym~=0.26.2
+matplotlib~=3.5.3
+numpy~=1.21.6
+pandas~=1.3.5
+scipy~=1.7.3
+click~=8.0.4
+torch~=1.13.0
