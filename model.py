@@ -90,8 +90,8 @@ class ReallocationModel(TorchModelV2, nn.Module):
         # obs = input_dict["obs_flat"]
         weights = input_dict["prev_actions"]
         obs = input_dict["obs"]
-        obs = torch.transpose(obs, 1, 2)
-        obs = torch.transpose(obs, 1, 2).flatten(2)
+        # obs = torch.transpose(obs, 1, 2)
+        obs = torch.flatten(obs, 2)
 
         print("-----------OBS=----------------\n")
         print(obs.shape)
