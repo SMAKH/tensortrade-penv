@@ -7,3 +7,5 @@ numpy~=1.21.6
 pandas~=1.3.5
 scipy~=1.7.3
 click~=8.0.4
+lz4~=4.0.2
+tensorboardx~=2.5.1
