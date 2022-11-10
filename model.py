@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 from ray.rllib.models.torch.recurrent_net import RecurrentNetwork
 from ray.rllib.models.torch.torch_action_dist import TorchDistributionWrapper
+from ray.rllib.models.torch.torch_modelv2 import TorchModelV2
 from ray.rllib.policy.view_requirement import ViewRequirement
 
 
@@ -37,7 +38,7 @@ class Dirichlet(TorchDistributionWrapper):
         return action_space.m + 1
 
 
-class ReallocationModel(RecurrentNetwork, nn.Module):
+class ReallocationModel(TorchModelV2, nn.Module):
     """A simple model that takes the last n observations as input."""
 
     def __init__(self, obs_space, action_space, num_outputs, model_config, name, **kwargs):
@@ -89,7 +90,7 @@ class ReallocationModel(RecurrentNetwork, nn.Module):
             space=action_space
         )
 
-    def forward_rnn(self, input_dict, states, seq_lens):
+    def forward(self, input_dict, states, seq_lens):
         # obs = input_dict["obs_flat"]
         print(input_dict)
         print('[[[][][][][][][][][][][][][]')
@@ -97,6 +98,7 @@ class ReallocationModel(RecurrentNetwork, nn.Module):
         obs = input_dict["obs"]
         # obs = torch.transpose(obs, 1, 2)
         obs = torch.flatten(obs, 2)
+        obs = obs[:,-1,:]
 
         print("-----------OBS=----------------\n")
         print(obs.shape)
