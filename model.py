@@ -92,8 +92,9 @@ class ReallocationModel(TorchModelV2, nn.Module):
         obs = input_dict["obs"]
         obs = torch.transpose(obs, 1, 2)
 
-        print(obs.shape)
-        print(A.shape)
+
+        A = self.a(obs)
+        B = self.b(A)
         C = self.c(B)
         D = self.d(C)
         E = self.e(D)
@@ -105,7 +106,7 @@ class ReallocationModel(TorchModelV2, nn.Module):
         print(D.shape)
         print(E.shape)
         print(H.shape)
-
+        print('\n------------------\n')
         # H = self.conv(obs)
         X = torch.cat([H, weights], dim=1)
         logits = self.policy_head(X)
