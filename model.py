@@ -54,9 +54,9 @@ class ReallocationModel(TorchModelV2, nn.Module):
         f = 9396
 
         self.a = nn.LSTM(f, self.cell_size)
-        self.b = nn.Linear(f, 128)
+        self.b = nn.Linear(self.cell_size, 256)
         self.c = nn.ReLU()
-        self.d = nn.Linear(128, 3240)
+        self.d = nn.Linear(256, 512)
         self.e = nn.ReLU()
         self.f = nn.Flatten()
         # self.conv = nn.Sequential(
@@ -79,8 +79,8 @@ class ReallocationModel(TorchModelV2, nn.Module):
         #                           nn.Flatten()
         #                           )
 
-        self.policy_head = nn.Linear(3240 + (m + 1), m + 1)
-        self.value_head = nn.Linear(3240 + (m + 1), 1)
+        self.policy_head = nn.Linear(512 + (m + 1), m + 1)
+        self.value_head = nn.Linear(512 + (m + 1), 1)
 
         self._last_value = None
 
