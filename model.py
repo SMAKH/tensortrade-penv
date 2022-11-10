@@ -104,6 +104,7 @@ class ReallocationModel(TorchModelV2, nn.Module):
         # print(states[0].shape)
         state = (states[0][0,:], states[1][0,:])
         print(states[0][0,:].shape)
+        print(states[0][0:1,:].shape)
         print("-----------OBS=----------------\n")
         print(obs.shape)
         A, newstate = self.a(obs, state)
