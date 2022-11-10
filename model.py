@@ -91,6 +91,8 @@ class ReallocationModel(RecurrentNetwork, nn.Module):
 
     def forward_rnn(self, input_dict, states, seq_lens):
         # obs = input_dict["obs_flat"]
+        print(input_dict)
+        print('[[[][][][][][][][][][][][][]')
         weights = input_dict["prev_actions"]
         obs = input_dict["obs"]
         # obs = torch.transpose(obs, 1, 2)
