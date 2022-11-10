@@ -47,11 +47,11 @@ class ReallocationModel(TorchModelV2, nn.Module):
 
         self.cell_size = 128
         m = model_config["custom_model_config"]["num_assets"]
-        f = model_config["custom_model_config"]["num_features"]
+        # f = model_config["custom_model_config"]["num_features"]
         second_channels = model_config["custom_model_config"]["second_channels"]
         third_channels = model_config["custom_model_config"]["third_channels"]
         forth_channels = model_config["custom_model_config"]["forth_channels"]
-        f = 9396
+        # f = 9396
 
         self.a = nn.LSTM(f, self.cell_size)
         self.b = nn.Linear(self.cell_size, 256)
@@ -59,14 +59,7 @@ class ReallocationModel(TorchModelV2, nn.Module):
         self.d = nn.Linear(256, 512)
         self.e = nn.ReLU()
         self.f = nn.Flatten()
-        # self.conv = nn.Sequential(
-        #     nn.LSTM(f, 16),
-        #     nn.Linear(16, 128),
-        #     nn.ReLU(),
-        #     nn.Linear(128, 3240),
-        #     nn.ReLU(),
-        #     nn.Flatten()
-        # )
+
 
         ### out = 3240
         # self.conv = nn.Sequential(nn.Conv2d(f, second_channels, (3, 1), stride=(2, 1), bias=True),
@@ -91,41 +84,23 @@ class ReallocationModel(TorchModelV2, nn.Module):
         )
 
     def forward(self, input_dict, states, seq_lens):
+        print(states)
         # obs = input_dict["obs_flat"]
-        print(input_dict)
-        print('[[[][][][][][][][][][][][][]')
         weights = input_dict["prev_actions"]
         obs = input_dict["obs"]
         # obs = torch.transpose(obs, 1, 2)
         obs = torch.flatten(obs, 2)
         obs = obs[:,-1,:]
-        print("STATES\n")
-        # print(len(states))
-        # print(states[0].shape)
         state = (states[0][0:1,:], states[1][0:1,:])
-        print("-----------OBS=----------------\n")
-        print(obs.shape)
         A, newstate = self.a(obs, state)
-        print("--------OBS DONE--------\n")
+        print(newstate)
 
-        print(A.shape)
         B = self.b(A)
-
-        print(B.shape)
         C = self.c(B)
-
-        print(C.shape)
         D = self.d(C)
-
-        print(D.shape)
         E = self.e(D)
-
-
-        print(E.shape)
         H = self.f(E)
 
-        print(H.shape)
-        print('\n------------------\n')
         # H = self.conv(obs)
         X = torch.cat([H, weights], dim=1)
         logits = self.policy_head(X)
