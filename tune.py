@@ -82,7 +82,7 @@ def main(num_samples=1, num_workers=1):
             "training_iteration": 500
         },
         checkpoint_at_end=True,
-        local_dir="./results"
+        local_dir="tensortrade-penv/results"
     )
 
     checkpoints = analysis.get_trial_checkpoints_paths(
@@ -95,7 +95,7 @@ def main(num_samples=1, num_workers=1):
         "checkpoints": checkpoints
     }
 
-    json.dump(params, open("./data/tuned_params.json", "w"), indent=4)
+    json.dump(params, open("tensortrade-penv/data/tuned_params.json", "w"), indent=4)
 
 
 if __name__ == "__main__":

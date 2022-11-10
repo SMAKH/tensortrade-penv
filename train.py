@@ -24,7 +24,7 @@ def on_episode_end(info):
 
 @click.command()
 def main():
-    params = json.load(open("./data/tuned_params.json", "r"))
+    params = json.load(open("tensortrade-penv/data/tuned_params.json", "r"))
 
     config = params["config"].copy()
     config["callbacks"] = {
@@ -43,7 +43,7 @@ def main():
         checkpoint_freq=10,
         restore=checkpoint,
         checkpoint_at_end=True,
-        local_dir="./results"
+        local_dir="tensortrade-penv/results"
     )
 
     checkpoints = analysis.get_trial_checkpoints_paths(
@@ -52,7 +52,7 @@ def main():
     )
 
     params["checkpoints"] = checkpoints
-    json.dump(params, open("./data/trained_params.json", "w"), indent=4)
+    json.dump(params, open("tensortrade-penv/data/trained_params.json", "w"), indent=4)
 
 
 import sys

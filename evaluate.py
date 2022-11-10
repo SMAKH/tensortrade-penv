@@ -10,7 +10,7 @@ from __init__ import *
 
 
 def main(random: bool = False):
-    params = json.load(open("./data/tuned_params.json", "r"))
+    params = json.load(open("tensortrade-penv/data/tuned_params.json", "r"))
 
     config = params["config"]
     config["num_workers"] = 1
@@ -30,8 +30,8 @@ def main(random: bool = False):
     config["end_date"] = config["validation_close_date"]
     start_date = config['start_date']
     end_date = config['end_date']
-    path = './prices.csv'
-    signal_path = './signals.csv'
+    path = 'tensortrade-penv/prices.csv'
+    signal_path = 'tensortrade-penv/signals.csv'
     signals = pd.read_csv(signal_path)
     df = pd.read_csv(path)
     df['date'] = pd.to_datetime(df['date'])

@@ -218,7 +218,7 @@ class ReallocationChart(generic.Renderer):
     def render(self, env, **kwargs):
         history = env.observer.renderer_history
         df = pd.DataFrame(history)
-        # df.to_csv("./histofy.csv")
+        # df.to_csv("tensortrade-penv/histofy.csv")
         sr = round(sharpe(df.pv.pct_change()), 2)
         mdd = round(maximum_drawdown(df.pv), 2)
         num_assets = self.num_assets
@@ -331,8 +331,8 @@ def create_env_with_price_series(config: dict, price_stream: Stream[np.array], h
 def create_env(config: dict):
     start_date = config['start_date']
     end_date = config['end_date']
-    path = './prices.csv'
-    signal_path = './signals.csv'
+    path = 'tensortrade-penv/prices.csv'
+    signal_path = 'tensortrade-penv/signals.csv'
     signals = pd.read_csv(signal_path)
     df = pd.read_csv(path)
     df['date'] = pd.to_datetime(df['date'])
