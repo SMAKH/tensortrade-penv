@@ -100,7 +100,7 @@ class ReallocationModel(TorchModelV2, nn.Module):
 
         # print(A)
         print(A[0].shape)
-        B = self.b(A)
+        B = self.b(A[0])
 
         print(B.shape)
         C = self.c(B)
