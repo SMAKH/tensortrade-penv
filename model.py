@@ -85,6 +85,7 @@ class ReallocationModel(TorchModelV2, nn.Module):
 
     def forward(self, input_dict, states, seq_lens):
         print(states)
+        print("------------END------------")
         # obs = input_dict["obs_flat"]
         weights = input_dict["prev_actions"]
         obs = input_dict["obs"]
@@ -93,6 +94,7 @@ class ReallocationModel(TorchModelV2, nn.Module):
         obs = obs[:,-1,:]
         state = (states[0][0:1,:], states[1][0:1,:])
         A, newstate = self.a(obs, state)
+        print("------------START------------")
         print(newstate)
 
         B = self.b(A)
