@@ -92,7 +92,8 @@ class ReallocationModel(RecurrentNetwork, nn.Module):
         # obs = torch.transpose(obs, 1, 2)
         obs = torch.flatten(obs, 2)
         obs = obs[:,-1,:]
-        states = torch.transpose(0,1)
+        states[0] = torch.transpose(states[0], 0, 1)
+        states[1] = torch.transpose(states[1], 0, 1)
 
         A, newstate = self.a(obs, states)
         print("------------START------------")
