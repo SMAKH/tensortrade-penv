@@ -38,7 +38,7 @@ class Dirichlet(TorchDistributionWrapper):
         return action_space.m + 1
 
 
-class ReallocationModel(TorchModelV2, nn.Module):
+class ReallocationModel(RecurrentNetwork, nn.Module):
     """A simple model that takes the last n observations as input."""
 
     def __init__(self, obs_space, action_space, num_outputs, model_config, name, **kwargs):
