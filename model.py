@@ -1,4 +1,3 @@
-import numpy as np
 import torch
 import torch.nn as nn
 from ray.rllib.models.torch.recurrent_net import RecurrentNetwork
@@ -134,10 +133,5 @@ class ReallocationModel(TorchModelV2, nn.Module):
         logits[logits != logits] = 1
         return torch.tanh(logits), [newstate[0], newstate[1]]
 
-    def get_initial_state(self):
-        return [
-            np.zeros(self.cell_size, np.float32),
-            np.zeros(self.cell_size, np.float32),
-        ]
     def value_function(self):
         return torch.squeeze(self._last_value, -1)
