@@ -48,7 +48,7 @@ class ReallocationModel(TorchModelV2, nn.Module):
         second_channels = model_config["custom_model_config"]["second_channels"]
         third_channels = model_config["custom_model_config"]["third_channels"]
         forth_channels = model_config["custom_model_config"]["forth_channels"]
-
+        f = 9396
         self.a = nn.LSTM(f, 16)
         self.b = nn.Linear(16, 128)
         self.c = nn.ReLU()
