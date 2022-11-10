@@ -93,9 +93,10 @@ class ReallocationModel(TorchModelV2, nn.Module):
         obs = torch.transpose(obs, 1, 2)
 
 
+        print("-----------OBS=----------------\n")
         print(obs.shape)
         A = self.a(obs)
-
+        print("--------OBS DONE--------\n")
         print(A.shape)
         B = self.b(A)
 
