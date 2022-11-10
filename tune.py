@@ -34,6 +34,7 @@ def main(num_samples=1, num_workers=1):
         num_samples=num_samples,
         metric="episode_reward_min",
         mode="max",
+        verbose=3,
         config={
             "env": "TradingEnv",
             "env_config": {
