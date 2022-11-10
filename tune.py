@@ -13,18 +13,31 @@ from __init__ import *
 @click.option("--num-samples", default=2, type=int)
 @click.option("--num-workers", default=1, type=int)
 def main(num_samples=1, num_workers=1):
+    # pbt = PopulationBasedTraining(
+    #     time_attr="time_total_s",
+    #     perturbation_interval=50,
+    #     resample_probability=0.25,
+    #     hyperparam_mutations={
+    #         "lambda": tune.uniform(0.85, 1.0),
+    #         "clip_param": tune.uniform(0.01, 0.5),
+    #         "lr": [1e-2, 1e-3, 5e-4, 1e-4, 5e-5, 1e-5],
+    #         "num_sgd_iter": tune.randint(1, 30),
+    #         "sgd_minibatch_size": tune.randint(100, 300),
+    #         "train_batch_size": tune.randint(1000, 1500),
+    #         "rollout_fragment_length": [50, 100, 150],
+    #     }
     pbt = PopulationBasedTraining(
         time_attr="time_total_s",
         perturbation_interval=50,
         resample_probability=0.25,
         hyperparam_mutations={
-            "lambda": tune.uniform(0.85, 1.0),
-            "clip_param": tune.uniform(0.01, 0.5),
-            "lr": [1e-2, 1e-3, 5e-4, 1e-4, 5e-5, 1e-5],
-            "num_sgd_iter": tune.randint(1, 30),
-            "sgd_minibatch_size": tune.randint(100, 300),
-            "train_batch_size": tune.randint(1000, 1500),
-            "rollout_fragment_length": [50, 100, 150],
+            "lambda": [0.8821808498975311],
+            "clip_param": [0.406076612771886],
+            "lr": [0.0005154089107365966],
+            "num_sgd_iter": [5],
+            "sgd_minibatch_size": [128],
+            "train_batch_size": [1200],
+            "rollout_fragment_length": [100],
         }
     )
 
