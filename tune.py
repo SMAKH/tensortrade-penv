@@ -82,7 +82,7 @@ def main(num_samples=1, num_workers=1):
             "train_batch_size": tune.randint(1000, 2000)
         },
         stop={
-            "training_iteration": 500
+            "training_iteration": 5
         },
         checkpoint_at_end=True,
         local_dir="tensortrade-penv/results"
