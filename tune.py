@@ -41,6 +41,8 @@ def main(num_samples=1, num_workers=1):
         }
     )
 
+    print("Chettori khareee?/////////////////////////////\n\n///////////////////////////////////////\n\n")
+
     analysis = tune.run(
         "PPO",
         name="pbt_portfolio_reallocation",
