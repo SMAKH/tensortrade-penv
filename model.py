@@ -98,8 +98,8 @@ class ReallocationModel(TorchModelV2, nn.Module):
         A = self.a(obs)
         print("--------OBS DONE--------\n")
 
-        print(A)
-        print(A.shape)
+        # print(A)
+        print(A[0].shape)
         B = self.b(A)
 
         print(B.shape)
