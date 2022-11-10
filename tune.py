@@ -53,8 +53,10 @@ def main(num_samples=1, num_workers=1):
                 "validation_start_close": "11/30/2019"
             },
             "kl_coeff": 1.0,
-            "num_workers": 8,
+            "num_workers": 1,
+            "num_cpus_per_worker": 2,
             "num_gpus": 1,
+            "num_gpus_per_worker": 1,
             "rollout_fragment_length": 100,
             "observation_filter": tune.choice(["NoFilter", "MeanStdFilter"]),
             "batch_mode": tune.choice(["truncate_episodes", "complete_episodes"]),
