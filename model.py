@@ -1,7 +1,8 @@
+import numpy as np
 import torch
 import torch.nn as nn
+from ray.rllib.models.torch.recurrent_net import RecurrentNetwork
 from ray.rllib.models.torch.torch_action_dist import TorchDistributionWrapper
-from ray.rllib.models.torch.torch_modelv2 import TorchModelV2
 from ray.rllib.policy.view_requirement import ViewRequirement
 
 
@@ -36,21 +37,23 @@ class Dirichlet(TorchDistributionWrapper):
         return action_space.m + 1
 
 
-class ReallocationModel(TorchModelV2, nn.Module):
+class ReallocationModel(RecurrentNetwork, nn.Module):
     """A simple model that takes the last n observations as input."""
 
     def __init__(self, obs_space, action_space, num_outputs, model_config, name, **kwargs):
         nn.Module.__init__(self)
         super().__init__(obs_space, action_space, None, model_config, name)
 
+        self.cell_size = 128
         m = model_config["custom_model_config"]["num_assets"]
         f = model_config["custom_model_config"]["num_features"]
         second_channels = model_config["custom_model_config"]["second_channels"]
         third_channels = model_config["custom_model_config"]["third_channels"]
         forth_channels = model_config["custom_model_config"]["forth_channels"]
         f = 9396
-        self.a = nn.LSTM(f, 16)
-        self.b = nn.Linear(16, 128)
+
+        self.a = nn.LSTM(f, self.cell_size)
+        self.b = nn.Linear(f, 128)
         self.c = nn.ReLU()
         self.d = nn.Linear(128, 3240)
         self.e = nn.ReLU()
@@ -86,7 +89,7 @@ class ReallocationModel(TorchModelV2, nn.Module):
             space=action_space
         )
 
-    def forward(self, input_dict, states, seq_lens):
+    def forward_rnn(self, input_dict, states, seq_lens):
         # obs = input_dict["obs_flat"]
         weights = input_dict["prev_actions"]
         obs = input_dict["obs"]
@@ -95,12 +98,11 @@ class ReallocationModel(TorchModelV2, nn.Module):
 
         print("-----------OBS=----------------\n")
         print(obs.shape)
-        A = self.a(obs)
+        A, newstate = self.a(obs, states)
         print("--------OBS DONE--------\n")
 
-        # print(A)
-        print(A[0].shape)
-        B = self.b(A[0])
+        print(A.shape)
+        B = self.b(A)
 
         print(B.shape)
         C = self.c(B)
@@ -123,7 +125,12 @@ class ReallocationModel(TorchModelV2, nn.Module):
         self._last_value = self.value_head(X)
 
         logits[logits != logits] = 1
-        return torch.tanh(logits), []
+        return torch.tanh(logits), newstate
 
+    def get_initial_state(self):
+        return [
+            np.zeros(self.cell_size, np.float32),
+            np.zeros(self.cell_size, np.float32),
+        ]
     def value_function(self):
         return torch.squeeze(self._last_value, -1)
