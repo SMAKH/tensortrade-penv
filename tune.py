@@ -3,6 +3,7 @@ import json
 import click
 import ray
 from ray import tune
+from ray.tune import CLIReporter
 from ray.tune.schedulers import PopulationBasedTraining
 
 from __init__ import *
@@ -35,6 +36,7 @@ def main(num_samples=1, num_workers=1):
         metric="episode_reward_min",
         mode="max",
         verbose=3,
+        progress_reporter=CLIReporter(),
         config={
             "env": "TradingEnv",
             "env_config": {
