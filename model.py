@@ -109,7 +109,10 @@ class ReallocationModel(RecurrentNetwork, nn.Module):
         self._last_value = self.value_head(X)
 
         logits[logits != logits] = 1
-        return torch.tanh(logits), [newstate[0], newstate[1]]
+        return torch.tanh(logits), [
+            torch.tensor(np.ones(self.cell_size, np.float32)),
+            torch.tensor(np.ones(self.cell_size, np.float32))]
+               # [newstate[0], newstate[1]]
 
     def get_initial_state(self):
         return [
