@@ -49,11 +49,11 @@ class ReallocationModel(TorchModelV2, nn.Module):
         third_channels = model_config["custom_model_config"]["third_channels"]
         forth_channels = model_config["custom_model_config"]["forth_channels"]
 
-        self.a = nn.LSTM(f, 16),
-        self.b = nn.Linear(16, 128),
-        self.c = nn.ReLU(),
-        self.d = nn.Linear(128, 3240),
-        self.e = nn.ReLU(),
+        self.a = nn.LSTM(f, 16)
+        self.b = nn.Linear(16, 128)
+        self.c = nn.ReLU()
+        self.d = nn.Linear(128, 3240)
+        self.e = nn.ReLU()
         self.f = nn.Flatten()
         # self.conv = nn.Sequential(
         #     nn.LSTM(f, 16),
@@ -93,18 +93,25 @@ class ReallocationModel(TorchModelV2, nn.Module):
         obs = torch.transpose(obs, 1, 2)
 
 
+        print(obs.shape)
         A = self.a(obs)
-        B = self.b(A)
-        C = self.c(B)
-        D = self.d(C)
-        E = self.e(D)
-        H = self.f(E)
 
         print(A.shape)
+        B = self.b(A)
+
         print(B.shape)
+        C = self.c(B)
+
         print(C.shape)
+        D = self.d(C)
+
         print(D.shape)
+        E = self.e(D)
+
+
         print(E.shape)
+        H = self.f(E)
+
         print(H.shape)
         print('\n------------------\n')
         # H = self.conv(obs)
