@@ -49,15 +49,31 @@ class ReallocationModel(TorchModelV2, nn.Module):
         third_channels = model_config["custom_model_config"]["third_channels"]
         forth_channels = model_config["custom_model_config"]["forth_channels"]
 
-        self.conv = nn.Sequential(nn.Conv2d(f, second_channels, (3, 1), stride=(2, 1), bias=True),
-                                  nn.ReLU(),
-                                  nn.Conv2d(second_channels, third_channels, (3, 1), stride=(2, 1), bias=True),
-                                  # nn.BatchNorm2d(third_channels),
-                                  nn.ReLU(),
-                                  nn.Conv2d(third_channels, forth_channels, (3, 1), stride=(2, 1), bias=True),
-                                  nn.ReLU(),
-                                  nn.Flatten()
-                                  )
+        self.a = nn.LSTM(f, 16),
+        self.b = nn.Linear(16, 128),
+        self.c = nn.ReLU(),
+        self.d = nn.Linear(128, 3240),
+        self.e = nn.ReLU(),
+        self.f = nn.Flatten()
+        # self.conv = nn.Sequential(
+        #     nn.LSTM(f, 16),
+        #     nn.Linear(16, 128),
+        #     nn.ReLU(),
+        #     nn.Linear(128, 3240),
+        #     nn.ReLU(),
+        #     nn.Flatten()
+        # )
+
+        ### out = 3240
+        # self.conv = nn.Sequential(nn.Conv2d(f, second_channels, (3, 1), stride=(2, 1), bias=True),
+        #                           nn.ReLU(),
+        #                           nn.Conv2d(second_channels, third_channels, (3, 1), stride=(2, 1), bias=True),
+        #                           # nn.BatchNorm2d(third_channels),
+        #                           nn.ReLU(),
+        #                           nn.Conv2d(third_channels, forth_channels, (3, 1), stride=(2, 1), bias=True),
+        #                           nn.ReLU(),
+        #                           nn.Flatten()
+        #                           )
 
         self.policy_head = nn.Linear(3240 + (m + 1), m + 1)
         self.value_head = nn.Linear(3240 + (m + 1), 1)
@@ -75,7 +91,22 @@ class ReallocationModel(TorchModelV2, nn.Module):
         weights = input_dict["prev_actions"]
         obs = input_dict["obs"]
         obs = torch.transpose(obs, 1, 2)
-        H = self.conv(obs)
+
+        print(obs.shape)
+        print(A.shape)
+        C = self.c(B)
+        D = self.d(C)
+        E = self.e(D)
+        H = self.f(E)
+
+        print(A.shape)
+        print(B.shape)
+        print(C.shape)
+        print(D.shape)
+        print(E.shape)
+        print(H.shape)
+
+        # H = self.conv(obs)
         X = torch.cat([H, weights], dim=1)
         logits = self.policy_head(X)
         self._last_value = self.value_head(X)
