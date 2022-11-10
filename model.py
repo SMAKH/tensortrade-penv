@@ -99,7 +99,7 @@ class ReallocationModel(TorchModelV2, nn.Module):
         # obs = torch.transpose(obs, 1, 2)
         obs = torch.flatten(obs, 2)
         obs = obs[:,-1,:]
-        state = states[0,:,:]
+        state = (states[0][0,:,:], states[1][0,:,:])
         print("-----------OBS=----------------\n")
         print(obs.shape)
         A, newstate = self.a(obs, state)
